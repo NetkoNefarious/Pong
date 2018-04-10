@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ball : MonoBehaviour {
     [SerializeField] float speed = 30;
@@ -34,7 +35,15 @@ public class Ball : MonoBehaviour {
         {
             SoundManager.Instance.PlayOneShot(SoundManager.Instance.goalBloop);
 
-            //TO DO : Update Score UI
+            if (collision.gameObject.name == "Left Goal")
+            {
+                IncreaseTextUIScore("Right Score");
+            }
+
+            if (collision.gameObject.name == "Right Goal")
+            {
+                IncreaseTextUIScore("Left Score");
+            }
 
             transform.position = new Vector2(0, 0);
         }
@@ -62,5 +71,14 @@ public class Ball : MonoBehaviour {
     private float BallHitPaddleWhere(Vector2 ball, Vector2 paddle, float paddleHeight)
     {
         return (ball.y - paddle.y) / paddleHeight;
+    }
+
+    void IncreaseTextUIScore(string textUIName)
+    {
+        var textUIComp = GameObject.Find(textUIName).GetComponent<Text>();
+
+        int score = int.Parse(textUIComp.text);
+        score++;
+        textUIComp.text = score.ToString();
     }
 }
