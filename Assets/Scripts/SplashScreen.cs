@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SplashScreen : MonoBehaviour {
 
-    [SerializeField] string sceneToLoad;
     [SerializeField] int secondsTillSceneLoad;
 
 	// Use this for initialization
@@ -15,6 +14,6 @@ public class SplashScreen : MonoBehaviour {
 
     void OpenNextScene()
     {
-        SceneManager.LoadScene(sceneToLoad);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
