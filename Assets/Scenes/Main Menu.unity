@@ -628,13 +628,29 @@ Prefab:
     - target: {fileID: 114359777579122034, guid: 916f64d16bf49b2488a436254bdd7cb0,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayGame
+      value: SinglePlayerGame
       objectReference: {fileID: 0}
     - target: {fileID: 114359777579122034, guid: 916f64d16bf49b2488a436254bdd7cb0,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 114359777579122034, guid: 916f64d16bf49b2488a436254bdd7cb0,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114359777579122034, guid: 916f64d16bf49b2488a436254bdd7cb0,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114359777579122034, guid: 916f64d16bf49b2488a436254bdd7cb0,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 11500000, guid: 5f47dc6b3d69c4840a488eee78dff3a0,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 916f64d16bf49b2488a436254bdd7cb0, type: 2}
   m_IsPrefabParent: 0
@@ -1506,6 +1522,21 @@ Prefab:
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114359777579122034, guid: 916f64d16bf49b2488a436254bdd7cb0,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1302169421}
+    - target: {fileID: 114359777579122034, guid: 916f64d16bf49b2488a436254bdd7cb0,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MultiPlayerGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 114359777579122034, guid: 916f64d16bf49b2488a436254bdd7cb0,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 916f64d16bf49b2488a436254bdd7cb0, type: 2}

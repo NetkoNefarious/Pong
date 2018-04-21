@@ -371,6 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+  axis: Vertical
 --- !u!1 &786701858 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1307957006890612, guid: aec59ede32439b94495b80c7bc1413e3,
@@ -390,6 +391,19 @@ MonoBehaviour:
   ball: {fileID: 301599981}
   speed: 30
   lerpTweak: 2
+--- !u!114 &786701860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 786701858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f47dc6b3d69c4840a488eee78dff3a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 30
+  axis: Vertical2
 --- !u!1 &851814842
 GameObject:
   m_ObjectHideFlags: 0
