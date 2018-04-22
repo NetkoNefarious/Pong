@@ -28,6 +28,10 @@ public class Ball : MonoBehaviour {
         if (collision.gameObject.name == "Top Wall" || collision.gameObject.name == "Bottom Wall")
         {
             SoundManager.Instance.PlayOneShot(SoundManager.Instance.wallBloop);
+
+            // Bug fix - The ball gets stuck to the walls at a small enough angle
+            // To be thoroughly tested
+            UnstickFromWall(collision);
         }
 
         // Left Goal or Right Goal
@@ -38,17 +42,44 @@ public class Ball : MonoBehaviour {
             if (collision.gameObject.name == "Left Goal")
             {
                 IncreaseTextUIScore("Right Score");
+
+                // Makes the ball go horizontally straight after scoring (in this case to the left)
+                direction = Vector2.left.normalized; 
             }
 
             if (collision.gameObject.name == "Right Goal")
             {
                 IncreaseTextUIScore("Left Score");
+
+                // This one is especially important for AI in order to not get scored on repeatedly
+                direction = Vector2.right.normalized;
             }
 
+            // Reset ball position
             transform.position = new Vector2(0, 0);
         }
 
         rigidBody.velocity = speed * direction;
+    }
+
+    private void UnstickFromWall(Collision2D collision)
+    {
+        string wallName = collision.gameObject.name;
+        float offsetY = 0;
+
+        if (collision.gameObject.name == "Top Wall" && transform.position.y > collision.gameObject.transform.position.y)
+        {
+            offsetY = collision.gameObject.transform.position.y - transform.position.y;
+        }
+
+        else if (collision.gameObject.name == "Bottom Wall" && transform.position.y < collision.gameObject.transform.position.y)
+        {
+            offsetY = transform.position.y - collision.gameObject.transform.position.y;
+        }
+
+        float fixedY = transform.position.y - offsetY;
+        transform.position = new Vector2(transform.position.x, fixedY);
+        offsetY = 0;
     }
 
     private void HandlePaddleHit(Collision2D collision)

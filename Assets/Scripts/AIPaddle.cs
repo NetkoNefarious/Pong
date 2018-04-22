@@ -5,8 +5,7 @@ using UnityEngine;
 public class AIPaddle : MonoBehaviour {
 
     public Ball ball;
-    [SerializeField] float speed = 30;
-    public float lerpTweak = 2f;
+    [SerializeField] float speed = 250f;
     private Rigidbody2D rigidBody;
 
 	// Use this for initialization
@@ -16,22 +15,16 @@ public class AIPaddle : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (ball.transform.position.y > transform.position.y)
+		if (ball.transform.position.y != transform.position.y)
         {
-            Vector2 direction = new Vector2(0, 1).normalized; // Pomakni AI paddle dolje, normalizira vektor
-            rigidBody.velocity = Vector2.Lerp(rigidBody.velocity, direction * speed, lerpTweak * Time.deltaTime); // This smoothes out the movement
-        }
-
-        else if (ball.transform.position.y < transform.position.y)
-        {
-            Vector2 direction = new Vector2(0, -1).normalized;
-            rigidBody.velocity = Vector2.Lerp(rigidBody.velocity, direction * speed, lerpTweak * Time.deltaTime);
+            Vector2 direction = new Vector2(0, ball.transform.position.y-transform.position.y);
+            rigidBody.velocity = direction * speed * Time.deltaTime;
         }
 
         else
         {
-            Vector2 direction = new Vector2(0, 0).normalized;
-            rigidBody.velocity = Vector2.Lerp(rigidBody.velocity, direction * speed, lerpTweak * Time.deltaTime);
+            Vector2 direction = new Vector2(0, 0);
+            rigidBody.velocity = direction * speed * Time.deltaTime;
         }
     }
 }
