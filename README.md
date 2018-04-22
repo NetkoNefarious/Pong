@@ -11,3 +11,5 @@ What I plan to add to the game after I finish the core:
   * Add different options for multiplayer (handicap, time limit, score limit, layouts)
   * Add online multiplayer
 * Add my own sound effects
+
+If you have problems with TextMeshPro, delete the folder and download TextMeshPro from the Asset Store.
