@@ -15,16 +15,18 @@ public class AIPaddle : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+        Vector2 direction;
+
 		if (ball.transform.position.y != transform.position.y)
         {
-            Vector2 direction = new Vector2(0, ball.transform.position.y-transform.position.y);
-            rigidBody.velocity = direction * speed * Time.deltaTime;
+            direction = new Vector2(0, ball.transform.position.y-transform.position.y);
         }
 
         else
         {
-            Vector2 direction = new Vector2(0, 0);
-            rigidBody.velocity = direction * speed * Time.deltaTime;
+            direction = new Vector2(0, 0);
         }
+
+        rigidBody.velocity = direction * speed * Time.deltaTime;
     }
 }

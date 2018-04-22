@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 301599981}
-  speed: 250
+  speed: 300
 --- !u!114 &786701860
 MonoBehaviour:
   m_ObjectHideFlags: 0
