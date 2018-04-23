@@ -9,11 +9,14 @@ public class Ball : MonoBehaviour {
     private Rigidbody2D rigidBody;
     private AudioSource audioSource;
     private Vector2 direction = new Vector2();
+    public Text countDown;
+    private bool score = false;
 
     // Use this for initialization
     void Start () {
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = Vector2.right * speed;
+        countDown = GameObject.Find("Countdown").GetComponent<Text>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -41,7 +44,7 @@ public class Ball : MonoBehaviour {
 
             if (collision.gameObject.name == "Left Goal")
             {
-                IncreaseTextUIScore("Right Score");
+                UpdateAndContinue("Right Score");
 
                 // Makes the ball go horizontally straight after scoring (in this case to the left)
                 direction = Vector2.left.normalized; 
@@ -49,7 +52,7 @@ public class Ball : MonoBehaviour {
 
             if (collision.gameObject.name == "Right Goal")
             {
-                IncreaseTextUIScore("Left Score");
+                UpdateAndContinue("Left Score");
 
                 // This one is especially important for AI in order to not get scored on repeatedly
                 direction = Vector2.right.normalized;
@@ -59,8 +62,40 @@ public class Ball : MonoBehaviour {
             transform.position = new Vector2(0, 0);
         }
 
-        rigidBody.velocity = speed * direction;
+        if (!score)
+        {
+            rigidBody.velocity = speed * direction;
+        }
+
+        else
+        {
+            rigidBody.velocity = 0 * direction;
+        }
     }
+
+    private void UpdateAndContinue(string goalScore)
+    {
+        IncreaseTextUIScore(goalScore);
+
+        StartCoroutine(Countdown());
+    }
+
+    private IEnumerator Countdown(){
+        score = true;
+        countDown.enabled = true;
+
+        for (int i = 3; i > 0; i--)
+        {
+            countDown.text = i.ToString();
+            yield return new WaitForSeconds(1);
+        }
+
+        countDown.text = "3";
+        countDown.enabled = false;
+        score = false;
+        rigidBody.velocity = speed * direction;
+
+    } // Nista implementirano, samo dummy za invoke
 
     private void UnstickFromWall(Collision2D collision)
     {
