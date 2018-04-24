@@ -1141,7 +1141,7 @@ Prefab:
     - target: {fileID: 114768459187536820, guid: 2b68ee52844436e49ba51abc9d36adf0,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114768459187536820, guid: 2b68ee52844436e49ba51abc9d36adf0,
         type: 2}
@@ -1336,7 +1336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 301599981}
-  speed: 300
+  speed: 500
 --- !u!114 &786701860
 MonoBehaviour:
   m_ObjectHideFlags: 0
