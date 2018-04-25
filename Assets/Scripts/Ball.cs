@@ -7,13 +7,11 @@ public class Ball : MonoBehaviour {
     private Rigidbody2D rigidBody;
     private AudioSource audioSource;
     private Vector2 direction = new Vector2();
-    public Text countDown;
 
     // Use this for initialization
     void Start () {
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = Vector2.right * speed;
-        countDown = GameObject.Find("Countdown").GetComponent<Text>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -39,6 +37,8 @@ public class Ball : MonoBehaviour {
             {
                 UpdateAndContinue("Right Score");
 
+                ScoreLimit.ScoreLimitWinCondition(isLeftScore: false);
+
                 // Makes the ball go horizontally straight after scoring (in this case to the left)
                 direction = Vector2.left.normalized;
             }
@@ -46,6 +46,8 @@ public class Ball : MonoBehaviour {
             if (collision.gameObject.name == "Right Goal")
             {
                 UpdateAndContinue("Left Score");
+
+                ScoreLimit.ScoreLimitWinCondition(isLeftScore: true);
 
                 // This one is especially important for AI in order to not get scored on repeatedly
                 direction = Vector2.right.normalized;
@@ -64,6 +66,11 @@ public class Ball : MonoBehaviour {
     }
 
     private IEnumerator Countdown(){
+        // References
+        Text countDown = GameObject.Find("Pause Countdown").GetComponent<Text>();
+
+        // Settings
+        countDown.text = "3";
         rigidBody.velocity = 0 * direction;
         countDown.enabled = true;
 
@@ -73,10 +80,8 @@ public class Ball : MonoBehaviour {
             yield return new WaitForSeconds(1);
         }
 
-        countDown.text = "3";
-        countDown.enabled = false;;
+        countDown.enabled = false;
         rigidBody.velocity = speed * direction;
-
     }
 
     private void HandlePaddleHit(Collision2D collision)
