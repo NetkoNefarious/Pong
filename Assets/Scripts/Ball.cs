@@ -1,35 +1,39 @@
-﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class Ball : MonoBehaviour {
-    [SerializeField] float speed = 30;
+    // Attributes
+    [SerializeField] float speed;
+    public Vector2 Direction { get; set; }
+
+    // References
     private Rigidbody2D rigidBody;
     private AudioSource audioSource;
-    private Vector2 direction = new Vector2();
+    private KeepScore score;
 
     // Use this for initialization
     void Start () {
+        Direction = new Vector2();
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = Vector2.right * speed;
+        score = GameObject.Find("ScoreTimeCanvas").GetComponent<KeepScore>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Left Paddle or Right Paddle
-        if (collision.gameObject.name == "Left Paddle" || collision.gameObject.name == "Right Paddle")
+        // Paddles
+        if (collision.gameObject.name.Contains("Paddle"))
         {
             HandlePaddleHit(collision);
         }
 
-        // Bottom Wall or Top Wall
-        if (collision.gameObject.name == "Top Wall" || collision.gameObject.name == "Bottom Wall")
+        // Walls
+        if (collision.gameObject.name.Contains("Wall"))
         {
             SoundManager.Instance.PlayOneShot(SoundManager.Instance.wallBloop);
         }
 
-        // Left Goal or Right Goal
-        if (collision.gameObject.name == "Left Goal" || collision.gameObject.name == "Right Goal")
+        // Goals
+        if (collision.gameObject.name.Contains("Goal"))
         {
             SoundManager.Instance.PlayOneShot(SoundManager.Instance.goalBloop);
 
@@ -40,7 +44,7 @@ public class Ball : MonoBehaviour {
                 ScoreLimit.ScoreLimitWinCondition(isLeftScore: false);
 
                 // Makes the ball go horizontally straight after scoring (in this case to the left)
-                direction = Vector2.left.normalized;
+                Direction = Vector2.left.normalized;
             }
 
             if (collision.gameObject.name == "Right Goal")
@@ -50,7 +54,7 @@ public class Ball : MonoBehaviour {
                 ScoreLimit.ScoreLimitWinCondition(isLeftScore: true);
 
                 // This one is especially important for AI in order to not get scored on repeatedly
-                direction = Vector2.right.normalized;
+                Direction = Vector2.right.normalized;
             }
 
             // Reset ball position
@@ -60,28 +64,9 @@ public class Ball : MonoBehaviour {
 
     private void UpdateAndContinue(string goalScore)
     {
-        IncreaseTextUIScore(goalScore);
+        KeepScore.IncreaseTextUIScore(goalScore);
 
-        StartCoroutine(Countdown());
-    }
-
-    private IEnumerator Countdown(){
-        // References
-        Text countDown = GameObject.Find("Pause Countdown").GetComponent<Text>();
-
-        // Settings
-        countDown.text = "3";
-        rigidBody.velocity = 0 * direction;
-        countDown.enabled = true;
-
-        for (int i = 3; i > 0; i--)
-        {
-            countDown.text = i.ToString();
-            yield return new WaitForSeconds(1);
-        }
-
-        countDown.enabled = false;
-        rigidBody.velocity = speed * direction;
+        StartCoroutine(score.Countdown());
     }
 
     private void HandlePaddleHit(Collision2D collision)
@@ -90,15 +75,15 @@ public class Ball : MonoBehaviour {
 
         if (collision.gameObject.name == "Left Paddle")
         {
-            direction = new Vector2(1, y).normalized;
+            Direction = new Vector2(1, y).normalized;
         }
 
         else if (collision.gameObject.name == "Right Paddle")
         {
-            direction = new Vector2(-1, y).normalized;
+            Direction = new Vector2(-1, y).normalized;
         }
 
-        rigidBody.velocity = speed * direction;
+        rigidBody.velocity = speed * Direction;
 
         SoundManager.Instance.PlayOneShot(SoundManager.Instance.hitPaddleBloop);
     }
@@ -108,12 +93,5 @@ public class Ball : MonoBehaviour {
         return (ball.y - paddle.y) / paddleHeight;
     }
 
-    void IncreaseTextUIScore(string textUIName)
-    {
-        var textUIComp = GameObject.Find(textUIName).GetComponent<Text>();
-
-        int score = int.Parse(textUIComp.text);
-        score++;
-        textUIComp.text = score.ToString();
-    }
+    public float GetSpeed { get { return speed; } }
 }
