@@ -4,8 +4,14 @@ using UnityEngine.UI;
 
 public class KeepScore : MonoBehaviour {
 
-    private static int leftScore = 0, rightScore = 0;
+    private static int leftScore, rightScore;
     [SerializeField] int countdownSeconds = 3;
+
+    private void Start()
+    {
+        leftScore = 0;
+        rightScore = 0;
+    }
 
     public static void IncreaseTextUIScore(string textUIName)
     {
