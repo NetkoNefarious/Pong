@@ -2,17 +2,20 @@
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
-    public static bool isSinglePlayer;
+    public static bool isSinglePlayer = false;
 
-    public void SinglePlayerGame()
+    public void SinglePlayer()
     {
         isSinglePlayer = true;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void MultiPlayerGame()
+    public void MultiPlayer()
     {
         isSinglePlayer = false;
+    }
+
+    public void PlayGame()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
