@@ -2,30 +2,68 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ScoreLimit : MonoBehaviour {
+    private static bool isScoreActive = false;
+    public static int limitScore;
+    private Text scoreLimitValue;
 
-    static int limit = 3;
-
-	public static void ScoreLimitWinCondition (bool isLeftScore) {
-
-        if (isLeftScore)
+    private void Start()
+    {
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main Scene"))
         {
-            string leftScore = GameObject.Find("Left Score").GetComponent<Text>().text;
-
-            if (int.Parse(leftScore) == limit)
-            {
-                print("The left player won.");
-            }
+            isScoreActive = false;
+            scoreLimitValue = GameObject.Find("Score Value").GetComponent<Text>();
+            scoreLimitValue.text = limitScore.ToString();
         }
 
         else
         {
-            string rightScore = GameObject.Find("Right Score").GetComponent<Text>().text;
+            isScoreActive = true;
 
-            if (int.Parse(rightScore) == limit)
+            if (limitScore == 0)
             {
-                print("The right player won.");
+                gameObject.SetActive(false);
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    public void IncrementScoreLimit()
+    {
+        scoreLimitValue.text = (++limitScore).ToString();
+    }
+
+    public void DecrementScoreLimit()
+    {
+        if (int.Parse(scoreLimitValue.text) > 0)
+        {
+            scoreLimitValue.text = (--limitScore).ToString();
+        }
+    }
+
+    public static void ScoreLimitWinCondition (bool isLeftScore) {
+        if (limitScore != 0)
+        {
+            if (isLeftScore)
+            {
+                string leftScore = GameObject.Find("Left Score").GetComponent<Text>().text;
+
+                if (int.Parse(leftScore) == limitScore)
+                {
+                    print("The left player won.");
+                }
+            }
+
+            else
+            {
+                string rightScore = GameObject.Find("Right Score").GetComponent<Text>().text;
+
+                if (int.Parse(rightScore) == limitScore)
+                {
+                    print("The right player won.");
+                }
             }
         }
 	}
