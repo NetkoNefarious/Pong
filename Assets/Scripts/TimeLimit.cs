@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class TimeLimit : MonoBehaviour {
-    private static bool isTimeActive = false;
+    private static bool isTimeLimitActive;
     public static int limitSeconds;
     private Text timeLimitValue;
     private Text timeLimit;
@@ -14,16 +14,14 @@ public class TimeLimit : MonoBehaviour {
     {
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main Scene"))
         {
-            isTimeActive = false;
+            isTimeLimitActive = GameObject.Find("Time Toggle").GetComponent<Toggle>().isOn;
             timeLimitValue = GameObject.Find("Time Value").GetComponent<Text>();
             timeLimitValue.text = limitSeconds.ToString();
         }
 
         else
         {
-            isTimeActive = true;
-
-            if (limitSeconds == 0)
+            if (limitSeconds == 0 || !isTimeLimitActive)
             {
                 gameObject.SetActive(false);
                 Destroy(gameObject);
@@ -38,10 +36,10 @@ public class TimeLimit : MonoBehaviour {
             }
         }
     }
-    public void IncrementTimeLimit()
-    {
-        timeLimitValue.text = (++limitSeconds).ToString();
-    }
+
+    public void Set_isTimeLimitActive() { isTimeLimitActive = !isTimeLimitActive; }
+
+    public void IncrementTimeLimit() { timeLimitValue.text = (++limitSeconds).ToString(); }
 
     public void DecrementTimeLimit()
     {

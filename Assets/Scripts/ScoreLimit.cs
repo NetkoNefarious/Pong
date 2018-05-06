@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class ScoreLimit : MonoBehaviour {
-    private static bool isScoreActive = false;
+    private static bool isScoreLimitActive;
     public static int limitScore;
     private Text scoreLimitValue;
 
@@ -13,16 +13,15 @@ public class ScoreLimit : MonoBehaviour {
     {
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main Scene"))
         {
-            isScoreActive = false;
+            isScoreLimitActive = GameObject.Find("Score Toggle").GetComponent<Toggle>().isOn;
+
             scoreLimitValue = GameObject.Find("Score Value").GetComponent<Text>();
             scoreLimitValue.text = limitScore.ToString();
         }
 
         else
         {
-            isScoreActive = true;
-
-            if (limitScore == 0)
+            if (limitScore == 0 || !isScoreLimitActive)
             {
                 gameObject.SetActive(false);
                 Destroy(gameObject);
@@ -30,10 +29,8 @@ public class ScoreLimit : MonoBehaviour {
         }
     }
 
-    public void IncrementScoreLimit()
-    {
-        scoreLimitValue.text = (++limitScore).ToString();
-    }
+    public void Set_isScoreLimitActive() { isScoreLimitActive = !isScoreLimitActive; }
+    public void IncrementScoreLimit() { scoreLimitValue.text = (++limitScore).ToString(); }
 
     public void DecrementScoreLimit()
     {
