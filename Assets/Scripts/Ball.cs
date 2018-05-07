@@ -9,13 +9,27 @@ public class Ball : MonoBehaviour {
     private Rigidbody2D rigidBody;
     private AudioSource audioSource;
     private KeepScore score;
+    private float topWallY, bottomWallY;
 
     // Use this for initialization
     void Start () {
         Direction = new Vector2();
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = Vector2.right * speed;
+
         score = GameObject.Find("ScoreTimeCanvas").GetComponent<KeepScore>();
+        topWallY = GameObject.Find("Top Wall").transform.position.y;
+        bottomWallY = GameObject.Find("Bottom Wall").transform.position.y;
+    }
+
+    void Update()
+    {
+        // If the ball goes out of bounds
+        if (rigidBody.position.y > topWallY || rigidBody.position.y < bottomWallY)
+        {
+            print("Out of Bounds");
+            UpdateAndContinue(goalScore: null, isOutOfBounds: true);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -39,33 +53,40 @@ public class Ball : MonoBehaviour {
 
             if (collision.gameObject.name == "Left Goal")
             {
-                UpdateAndContinue("Right Score");
+                UpdateAndContinue("Right Score", isOutOfBounds: false);
 
                 ScoreLimit.ScoreLimitWinCondition(isLeftScore: false);
-
-                // Makes the ball go horizontally straight after scoring (in this case to the left)
-                Direction = Vector2.left.normalized;
             }
 
             if (collision.gameObject.name == "Right Goal")
             {
-                UpdateAndContinue("Left Score");
+                UpdateAndContinue("Left Score", isOutOfBounds: false);
 
                 ScoreLimit.ScoreLimitWinCondition(isLeftScore: true);
-
-                // This one is especially important for AI in order to not get scored on repeatedly
-                Direction = Vector2.right.normalized;
             }
-
-            // Reset ball position
-            transform.position = new Vector2(0, 0);
         }
     }
 
-    private void UpdateAndContinue(string goalScore)
+    private void UpdateAndContinue(string goalScore, bool isOutOfBounds)
     {
-        KeepScore.IncreaseTextUIScore(goalScore);
+        if (!isOutOfBounds) { KeepScore.IncreaseTextUIScore(goalScore); }
 
+        switch (Direction.x > 0)
+        {
+            case true:
+                // This one is especially important for AI in order to not get scored on repeatedly
+                Direction = Vector2.right.normalized;
+                break;
+            default:
+                // Makes the ball go horizontally straight after scoring (in this case to the left)
+                Direction = Vector2.left.normalized;
+                break;
+        }
+
+        // Reset ball position
+        transform.position = new Vector2(0, 0);
+
+        // Staart the countdown
         StartCoroutine(score.Countdown());
     }
 
