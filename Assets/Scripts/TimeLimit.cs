@@ -2,10 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class TimeLimit : MonoBehaviour {
+    private static TimeSpan limit;
     private static bool isTimeLimitActive;
-    public static int limitSeconds;
+    public static int limitSeconds, limitMinutes;
     private Text timeLimitValue;
     private Text timeLimit;
     Text countDown;
@@ -39,13 +41,40 @@ public class TimeLimit : MonoBehaviour {
 
     public void Set_isTimeLimitActive() { isTimeLimitActive = !isTimeLimitActive; }
 
-    public void IncrementTimeLimit() { timeLimitValue.text = (++limitSeconds).ToString(); }
-
-    public void DecrementTimeLimit()
+    public void IncrementTimeLimitSeconds()
     {
-        if (limitSeconds > 0)
+        limitSeconds += 10; // 10 second increment
+
+        if (limitSeconds >= 60)
         {
-            timeLimitValue.text = (--limitSeconds).ToString();
+            limitMinutes++;
+            limitSeconds = limitSeconds - 60;
+        }
+
+        timeLimitValue.text = limitSeconds.ToString();
+    }
+
+    public void IncrementTimeLimitMinutes() { timeLimitValue.text = (++limitMinutes).ToString(); }
+
+    public void DecrementTimeLimitSeconds()
+    {
+        // 10 second decrement
+        if (limitMinutes > 0 || limitSeconds > 0) { limitSeconds -= 10; }
+
+        if (limitSeconds < 0)
+        {
+            limitSeconds = 60 + limitSeconds;
+            limitMinutes--;
+        }
+
+        timeLimitValue.text = limitSeconds.ToString();
+    }
+
+    public void DecrementTimeLimitMinutes()
+    {
+        if (limitMinutes > 0)
+        {
+            limitMinutes--;
         }
     }
 
