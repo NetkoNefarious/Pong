@@ -1,29 +1,36 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System;
 
 public class TimeLimit : MonoBehaviour {
-    private static TimeSpan limit;
-    private static bool isTimeLimitActive;
-    public static int limitSeconds, limitMinutes;
-    private Text timeLimitValue;
-    private Text timeLimit;
-    Text countDown;
+
+    private static bool isTimeLimitActive; // Checkbox control
+    private Text minutesValue, secondsValue; // Textboxes for time in the menu
+    private static TimeSpan limit; // Time
+    private Text clock; // In-game clock text
+    Text countDown; // In-game countdown text
+    [SerializeField] int secondsIncrement = 10;
+    
 
     private void Start()
     {
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main Scene"))
         {
             isTimeLimitActive = GameObject.Find("Time Toggle").GetComponent<Toggle>().isOn;
-            timeLimitValue = GameObject.Find("Time Value").GetComponent<Text>();
-            timeLimitValue.text = limitSeconds.ToString();
+            minutesValue = GameObject.Find("Minutes Value").GetComponent<Text>();
+            secondsValue = GameObject.Find("Seconds Value").GetComponent<Text>();
+
+            limit = new TimeSpan(0, 0, 0);
+
+            minutesValue.text = limit.Minutes.ToString();
+            secondsValue.text = limit.Seconds.ToString();
         }
 
         else
         {
-            if (limitSeconds == 0 || !isTimeLimitActive)
+            if (limit.TotalSeconds == 0 || !isTimeLimitActive)
             {
                 gameObject.SetActive(false);
                 Destroy(gameObject);
@@ -31,9 +38,11 @@ public class TimeLimit : MonoBehaviour {
 
             else
             {
-                timeLimit = GameObject.Find("Time Limit").GetComponent<Text>();
-                timeLimit.text = limitSeconds.ToString();
+                clock = GameObject.Find("Time Limit").GetComponent<Text>();
+                clock.text = string.Format("{0:00}:{1:00}", limit.Minutes, limit.Seconds);
+
                 countDown = GameObject.Find("Pause Countdown").GetComponent<Text>();
+
                 StartCoroutine(Clock());
             }
         }
@@ -43,51 +52,46 @@ public class TimeLimit : MonoBehaviour {
 
     public void IncrementTimeLimitSeconds()
     {
-        limitSeconds += 10; // 10 second increment
+        limit = limit.Add(new TimeSpan(0, 0, secondsIncrement));
 
-        if (limitSeconds >= 60)
-        {
-            limitMinutes++;
-            limitSeconds = limitSeconds - 60;
-        }
-
-        timeLimitValue.text = limitSeconds.ToString();
+        minutesValue.text = limit.Minutes.ToString();
+        secondsValue.text = limit.Seconds.ToString();
     }
 
-    public void IncrementTimeLimitMinutes() { timeLimitValue.text = (++limitMinutes).ToString(); }
+    public void IncrementTimeLimitMinutes()
+    {
+        limit = limit.Add(new TimeSpan(0, 1, 0));
+
+        minutesValue.text = limit.Minutes.ToString();
+    }
 
     public void DecrementTimeLimitSeconds()
     {
-        // 10 second decrement
-        if (limitMinutes > 0 || limitSeconds > 0) { limitSeconds -= 10; }
+        if (limit.TotalSeconds > 0) { limit = limit.Subtract(new TimeSpan(0, 0, secondsIncrement)); }
 
-        if (limitSeconds < 0)
-        {
-            limitSeconds = 60 + limitSeconds;
-            limitMinutes--;
-        }
-
-        timeLimitValue.text = limitSeconds.ToString();
+        minutesValue.text = limit.Minutes.ToString();
+        secondsValue.text = limit.Seconds.ToString();
     }
 
     public void DecrementTimeLimitMinutes()
     {
-        if (limitMinutes > 0)
-        {
-            limitMinutes--;
-        }
+        if (limit.TotalMinutes > 0) { limit = limit.Subtract(new TimeSpan(0, 1, 0)); }
+
+        minutesValue.text = limit.Minutes.ToString();
     }
 
     public IEnumerator Clock()
     {
-        int i = limitSeconds;
-        while(i > 0)
+        TimeSpan clockCountdown = limit;
+
+        while(clockCountdown.TotalSeconds > 0)
         {
             yield return new WaitForSeconds(1);
 
             if (!countDown.enabled) // If the Pause Countdown isn't enabled
             {
-                timeLimit.text = (--i).ToString();
+                clockCountdown = clockCountdown.Subtract(new TimeSpan(0, 0, 1));
+                clock.text = string.Format("{0:00}:{1:00}", clockCountdown.Minutes, clockCountdown.Seconds);
             }
         }
 

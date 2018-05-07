@@ -1231,7 +1231,7 @@ Prefab:
     - target: {fileID: 224704778018526078, guid: 2b68ee52844436e49ba51abc9d36adf0,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 92.6
+      value: 175.8
       objectReference: {fileID: 0}
     - target: {fileID: 224704778018526078, guid: 2b68ee52844436e49ba51abc9d36adf0,
         type: 2}
@@ -1300,7 +1300,7 @@ Prefab:
     - target: {fileID: 114768459187536820, guid: 2b68ee52844436e49ba51abc9d36adf0,
         type: 2}
       propertyPath: m_Text
-      value: 10
+      value: 00:00
       objectReference: {fileID: 0}
     - target: {fileID: 114768459187536820, guid: 2b68ee52844436e49ba51abc9d36adf0,
         type: 2}
@@ -1355,6 +1355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d109fe14dfd69a348860eed0300fbedb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  secondsIncrement: 10
 --- !u!1 &784987400
 GameObject:
   m_ObjectHideFlags: 0

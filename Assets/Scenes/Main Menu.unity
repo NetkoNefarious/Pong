@@ -546,6 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d109fe14dfd69a348860eed0300fbedb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  secondsIncrement: 10
 --- !u!1001 &237153648
 Prefab:
   m_ObjectHideFlags: 0
@@ -1848,15 +1849,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1626285346994736, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
       propertyPath: m_Name
-      value: MinutesUpButton
+      value: Minutes Up Button
       objectReference: {fileID: 0}
     - target: {fileID: 1501095579724046, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
       propertyPath: m_Name
-      value: MinutesDownButton
+      value: Minutes Down Button
       objectReference: {fileID: 0}
     - target: {fileID: 1142221468517930, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
       propertyPath: m_Name
-      value: MinutesValue
+      value: Minutes Value
       objectReference: {fileID: 0}
     - target: {fileID: 1704662159001878, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
       propertyPath: m_Name
@@ -2261,11 +2262,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1626285346994736, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
       propertyPath: m_Name
-      value: SecondsUpButton
+      value: Seconds Up Button
       objectReference: {fileID: 0}
     - target: {fileID: 1501095579724046, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
       propertyPath: m_Name
-      value: SecondsDownButton
+      value: Seconds Down Button
       objectReference: {fileID: 0}
     - target: {fileID: 1142221468517930, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
       propertyPath: m_Name
@@ -2682,7 +2683,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1302169420
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4256,6 +4257,14 @@ Prefab:
       propertyPath: m_Name
       value: Score Value
       objectReference: {fileID: 0}
+    - target: {fileID: 1626285346994736, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
+      propertyPath: m_Name
+      value: Score Up Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501095579724046, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
+      propertyPath: m_Name
+      value: Score Down Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a85511c2f0e1624428f4b097470a7fc6, type: 2}
   m_IsPrefabParent: 0
@@ -4468,7 +4477,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1961953463
 RectTransform:
   m_ObjectHideFlags: 0
